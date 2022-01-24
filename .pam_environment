@@ -1,0 +1,57 @@
+# default
+EDITOR		DEFAULT=nvim
+#BROWSER		DEFAULT=firefox
+MANPAGER	DEFAULT="nvim +Man! --cmd 'let $NVIM_AS_PAGER=1'"
+
+# xdg base directory
+XDG_CONFIG_HOME	DEFAULT=@{HOME}/.config
+XDG_CACHE_HOME	DEFAULT=@{HOME}/.cache
+XDG_DATA_HOME	DEFAULT=@{HOME}/.data
+
+XDG_DESKTOP_DIR        DEFAULT=@{HOME}/Userdata/Desktop
+XDG_DOWNLOAD_DIR       DEFAULT=@{HOME}/Userdata/Downloads
+XDG_TEMPLATES_DIR      DEFAULT=@{HOME}/Userdata/Templates
+XDG_PUBLICSHARE_DIR    DEFAULT=@{HOME}/Userdata/Public
+XDG_DOCUMENTS_DIR      DEFAULT=@{HOME}/Userdata/Documents
+XDG_MUSIC_DIR          DEFAULT=@{HOME}/Userdata/Music
+XDG_PICTURES_DIR       DEFAULT=@{HOME}/Userdata/Pictures
+XDG_VIDEOS_DIR         DEFAULT=@{HOME}/Userdata/Videos
+
+# xorg-xauth
+XAUTHORITY	DEFAULT=${XDG_RUNTIME_DIR}/Xauthority
+
+# xinit
+XINITRC		DEFAULT=${XDG_CONFIG_HOME}/X11/xinitrc
+XSERVERRC	DEFAULT=${XDG_CONFIG_HOME}/X11/serverrc
+
+# Xorg
+USERXSESSION      DEFAULT=${XDG_CACHE_HOME}/X11/xsession
+USERXSESSIONRC    DEFAULT=${XDG_CACHE_HOME}/X11/xsessionrc
+ALTUSERXSESSION   DEFAULT=${XDG_CACHE_HOME}/X11/Xsession
+ERRFILE           DEFAULT=${XDG_CACHE_HOME}/X11/xsession-errors
+
+# less
+LESSKEY		DEFAULT=${XDG_CONFIG_HOME}/less/lesskey
+LESSHISTFILE	DEFAULT=${XDG_DATA_HOME}/less/history
+
+# wget
+WGETRC		DEFAULT=${XDG_CONFIG_HOME}/wget/wgetrc
+
+# zsh
+ZDOTDIR		DEFAULT=${XDG_CONFIG_HOME}/zsh
+HISTFILE	DEFAULT=${XDG_DATA_HOME}/zsh/history
+
+# openssl
+#RANDFILE	DEFAULT=${XDG_DATA_HOME}/openssl/randfile
+
+# wine
+#WINEPREFIX	DEFAULT=${XDG_DATA_HOME}/wine
+
+
+# Fcitx5
+GTK_IM_MODULE   DEFAULT=fcitx
+QT_IM_MODULE    DEFAULT=fcitx
+XMODIFIERS      DEFAULT=\@im=fcitx
+INPUT_METHOD    DEFAULT=fcitx
+SDL_IM_MODULE   DEFAULT=fcitx
+GLFW_IM_MODULE  DEFAULT=ibus
