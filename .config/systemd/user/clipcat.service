@@ -1,0 +1,10 @@
+[Unit]
+Description=Clipcat Daemon
+
+[Service]
+ExecStart=/usr/bin/clipcatd --no-daemon
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
