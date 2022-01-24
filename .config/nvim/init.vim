@@ -1,0 +1,9 @@
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set smartindent
+set encoding=utf-8
+set number
+"set title
