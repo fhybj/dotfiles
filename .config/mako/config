@@ -1,0 +1,22 @@
+font=sans 10
+background-color=#e5e9f0dd
+text-color=#2e3440
+border-color=#eceff4
+border-radius=7
+max-icon-size=48
+height=500
+# avoid covering firefox's tabs and buttons
+outer-margin=75,0,0,0
+layer=overlay
+
+[urgency=high]
+text-color=#ff5c57ff
+border-color=#ff5c57bb
+
+[mode=locked]
+layer=top
+
+[mode=dnd]
+invisible=1
+
+# vim: se ft=dosini:

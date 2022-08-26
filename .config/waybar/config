@@ -1,0 +1,99 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    // "height": 36, // Waybar height (to be removed for auto height)
+    // Choose the order of the modules
+    "modules-left": [ "custom/weather", "idle_inhibitor" ],
+    "modules-center": [ "clock" ],
+    "modules-right": [ "cpu", "temperature", "pulseaudio", "bluetooth", "network", "tray", "custom/power" ],
+    // Modules configuration
+    "bluetooth": {
+        "interval": 30,
+        "format-alt": "{device_alias}",
+        "format-on": "",
+        "format-off": "",
+	"format-connected": " {device_alias}",
+	"tooltip-format-connected": "Bluetooth: {status}\nDevice number: {num_connections}\n{device_alias}: {device_address}",
+    },    
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip": "true"
+    },
+    "tray": {
+        //"icon-size": 11,
+        "spacing": 5
+    },
+    "clock": {
+        "format": "  {:%H:%M   %Y/%m/%d}",
+        "tooltip-format": "<big>{:%Y/%m/%d}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>",
+    },
+    "cpu": {
+        "interval": "1",      
+        "format": "  {avg_frequency}GHz <span color=\"darkgray\">| {icon} {usage}%</span>",
+	"format-icons": ["", "l", ""],
+        "max-length": 16,
+        "min-length": 16,
+        "tooltip": true
+    },
+    "temperature": {
+        //"thermal-zone": 1,
+        "interval": "4",
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 90,
+        "format-critical": "  {temperatureC}°C",
+        "format": "{icon}  {temperatureC}°C",
+        "format-icons": ["", "", ""],
+        "max-length": 7,
+        "min-length": 7
+    },
+    "network": {
+        // "interface": "wlan0", // (Optional) To force the use of this interface,
+        "format-wifi": "  {essid}",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "family": "ipv4",
+        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n  {bandwidthUpBits}   {bandwidthDownBits}",
+        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n  {bandwidthUpBits}   {bandwidthDownBits}"
+    },
+    "pulseaudio": {
+        "scroll-step": 3, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "amixer set Master toggle",
+    },
+   "custom/weather": {
+        "exec": "python ~/.config/waybar/scripts/weather.py",
+        "restart-interval": 300,
+        "return-type": "json",
+        //"on-click": "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)"
+        // "format-alt": "{alt}",
+   },
+   "custom/power": {
+        "max-length": 3,
+        "min-length": 3,
+       "format": "",
+       "on-click": "wlogout"
+   }
+}

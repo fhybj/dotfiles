@@ -1,0 +1,55 @@
+EDITOR   DEFAULT=nvim
+
+MANPAGER DEFAULT="nvim +Man! --cmd 'let $NVIM_AS_PAGER=1'"
+
+#LIBSEAT_BACKEND=logind
+
+# Network proxy
+#ALL_PROXY DEFAULT=socks5://127.0.0.1:7890
+
+# xdg base directory
+XDG_CONFIG_HOME DEFAULT=@{HOME}/.config
+XDG_CACHE_HOME  DEFAULT=@{HOME}/.cache
+XDG_DATA_HOME   DEFAULT=@{HOME}/.local/share
+XDG_STATE_HOME  DEFAULT=@{HOME}/.local/state
+
+# Wayland
+GDK_BACKEND          DEFAULT=wayland
+QT_QPA_PLATFORM      DEFAULT=wayland
+QT_QPA_PLATFORMTHEME DEFAULT=qt5ct
+QT_WAYLAND_FORCE_DPI DEFAULT=120
+#QT_AUTO_SCREEN_SCALE_FACTOR DEFAULT=1
+
+# Cursor
+XCURSOR_THEME  DEFAULT=Nordzy-cursors
+
+# zsh
+ZDOTDIR   DEFAULT=@{HOME}/.config/zsh
+HISTFILE  DEFAULT=${XDG_STATE_HOME}/zsh/history
+
+# less
+LESSKEY  DEFAULT=${XDG_CONFIG_HOME}/less/lesskey
+LESSHISTFILE DEFAULT=${XDG_STATE_HOME}/less/history
+
+# Cargo
+CARGO_HOME DEFAULT=${XDG_DATA_HOME}/cargo
+
+# Firefox
+MOZ_ENABLE_WAYLAND=1
+
+# Fcitx5
+GTK_IM_MODULE   DEFAULT=fcitx
+QT_IM_MODULE    DEFAULT=fcitx
+XMODIFIERS      DEFAULT=\@im=fcitx
+INPUT_METHOD    DEFAULT=fcitx
+SDL_IM_MODULE   DEFAULT=fcitx
+GLFW_IM_MODULE  DEFAULT=ibus
+
+# Ranger
+RANGER_LOAD_DEFAULT_RC DEFAULT=FALSE
+#RANGER_DEVICONS_SEPARATOR DEFAULT=" "
+
+# fzf
+FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --preview '~/.config/fzf/fzf-scope.sh {} '"
+FZF_DEFAULT_COMMAND="fd --exclude={.wine,.git,.idea,.vscode,.sass-cache,node_modules,build,.local,.steam,.m2,.rangerdir,.ssh,.ghidra,.mozilla} --type f --hidden --follow"
+
