@@ -3,10 +3,33 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     // "height": 36, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
-    "modules-left": [ "custom/weather", "idle_inhibitor" ],
-    "modules-center": [ "clock" ],
-    "modules-right": [ "cpu", "temperature", "pulseaudio", "bluetooth", "network", "tray", "custom/power" ],
+    "modules-left": [  "clock", "custom/weather", "idle_inhibitor" ],
+    "modules-center": [ "sway/workspaces" ],
+    "modules-right": [ "cpu", "temperature", "pulseaudio", "bluetooth", "network", "tray" ],
     // Modules configuration
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "<span color=\"#D8DEE9\"></span>",
+            "2": "<span color=\"#88C0D0\"></span>",
+            "3": "<span color=\"#D8DEE9\"></span>",
+            "4": "<span color=\"#A3BE8C\"></span>",
+            "5": "<span color=\"#8FBCBB\"></span>",
+            "6": "<span color=\"#D08770\"></span>",
+            "7": "<span color=\"#B48EAD\"></span>",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+    "sway/window": {
+        "format": "{}",
+        "max-length": 50, 
+        "tooltip": false
+    },
+
     "bluetooth": {
         "interval": 30,
         "format-alt": "{device_alias}",
@@ -34,7 +57,7 @@
     },
     "cpu": {
         "interval": "1",      
-        "format": "  {avg_frequency}GHz <span color=\"darkgray\">| {icon} {usage}%</span>",
+        "format": "  {avg_frequency}GHz <span color=\"darkgray\">|  {icon}  {usage}%</span>",
 	"format-icons": ["", "l", ""],
         "max-length": 16,
         "min-length": 16,

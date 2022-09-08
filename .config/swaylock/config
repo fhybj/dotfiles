@@ -1,5 +1,5 @@
 ignore-empty-password
-image=/usr/share/backgrounds/archlinux/snow.jpg
+image=$HOME/.config/sway/swaylock.png
 color=1d1f21c1
 indicator-idle-visible
 indicator-radius=150
