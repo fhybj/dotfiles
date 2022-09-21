@@ -1,0 +1,31 @@
+# Auth with polkit-gnome:
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Desktop notifications
+exec mako
+
+# Network Applet
+# exec nm-applet --indicator
+
+# GTK3 applications take a long time to start
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY
+     
+# Sway Fader
+exec python3 ~/.config/sway/scripts/swayfader.py      
+
+# xwayland scale
+exec ~/.config/sway/scripts/xwayland-scale.sh
+
+# InputMethod
+exec fcitx5
+
+# Clash for window
+exec /opt/clash-for-windows-chinese/cfw
+
+# ulauncher
+#exec ulauncher --hide-window --no-window-shadow
+
+# Screen color temperature
+exec wlsunset -l 39.9 -L 116.3

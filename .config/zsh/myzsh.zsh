@@ -15,9 +15,14 @@ alias vimdiff='nvim -d'
 # alias btm='btm --color gruvbox'
 # alias top='btm'
 
-alias emacs='emacs -nw'
+#alias emacs='emacs -nw'
 
 # alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
+
+alias m12='sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect'
+
+alias env_proxy='export all_proxy=socks5://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890'
+alias unset_env_proxy='unset {all_proxy,http_proxy,https_proxy}'
 
 # Backup & Restore presonal config by git
 ## See Arch wiki: https://wiki.archlinux.org/title/Dotfiles
@@ -45,3 +50,18 @@ rehash_precmd() {
 add-zsh-hook -Uz precmd rehash_precmd
 
 
+# Ranger plugin
+function ranger_func {
+    ranger $*
+    local quit_cd_wd_file="${XDG_DATA_HOME}/ranger/ranger_quit_cd_wd"
+    if [ -s "$quit_cd_wd_file" ]; then
+        cd "$(cat $quit_cd_wd_file)"
+        true | tee "$quit_cd_wd_file"
+    fi
+}
+
+alias rg='ranger_func'
+
+
+# autojump
+[[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
