@@ -1,6 +1,6 @@
 EDITOR   DEFAULT=nvim
 
-MANPAGER DEFAULT="nvim +Man! --cmd 'let ${NVIM_AS_PAGER}=1'"
+MANPAGER DEFAULT="nvim +Man! --cmd 'let NVIM_AS_PAGER=1'"
 
 #LIBSEAT_BACKEND=logind
 
