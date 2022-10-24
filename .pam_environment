@@ -1,4 +1,6 @@
-EDITOR   DEFAULT=nvim
+PATH     DEFAULT=@{HOME}/.local/share/cargo/bin:@{HOME}/.local/bin:${PATH}
+
+EDITOR   DEFAULT=nvim OVERRIDE=lvim
 
 MANPAGER DEFAULT="nvim +Man! --cmd 'let NVIM_AS_PAGER=1'"
 

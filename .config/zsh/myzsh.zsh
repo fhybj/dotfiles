@@ -4,11 +4,12 @@
 # Note: must have a space after of sudo
 alias sudo='sudo '
 
-alias svim='sudo nvim'
+alias svim='sudo lvim'
 
-alias vi='nvim'
-alias vim='nvim'
-alias vimdiff='nvim -d'
+alias nvim='lvim'
+alias vi='lvim'
+alias vim='lvim'
+alias vimdiff='lvim -d'
 
 # alias cat='bat'
 
@@ -20,6 +21,7 @@ alias vimdiff='nvim -d'
 # alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
 
 alias m12='sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect'
+alias m12_1='sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect'
 
 alias env_proxy='export all_proxy=socks5://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890'
 alias unset_env_proxy='unset {all_proxy,http_proxy,https_proxy}'
@@ -65,3 +67,4 @@ alias rg='ranger_func'
 
 # autojump
 [[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
+

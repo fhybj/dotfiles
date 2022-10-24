@@ -230,9 +230,9 @@ colors:
     #  foreground: '#434c5e'
     #  background: '#d8dee9'
 
-    bar:
-      background: "#434c5e"
-      foreground: "#d8dee9"
+  footer_bar:
+    background: "#434c5e"
+    foreground: "#d8dee9"
 
   # Keyboard regex hints
   #hints:
