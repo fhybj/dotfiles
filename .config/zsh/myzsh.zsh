@@ -20,11 +20,21 @@ alias vimdiff='lvim -d'
 
 # alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
 
-alias m12='sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect'
-alias m12_1='sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect'
+agenew_server_mount ()
+{
+	# pass password to ssh with -o password_stdin
+	echo "agenew0574" | sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect -o password_stdin
+	sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect -o password_stdin <<< "agenew0574"
+}
+alias agenew_server='agenew_server_mount'
+
+# alias m12='sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect'
+# alias m12_1='sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect'
 
 alias env_proxy='export all_proxy=socks5://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890'
 alias unset_env_proxy='unset {all_proxy,http_proxy,https_proxy}'
+
+alias jh='cd $HOME'
 
 # Backup & Restore presonal config by git
 ## See Arch wiki: https://wiki.archlinux.org/title/Dotfiles
@@ -62,9 +72,42 @@ function ranger_func {
     fi
 }
 
-alias rg='ranger_func'
+alias re='ranger_func'
 
 
 # autojump
-[[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
+#[[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
 
+# Google translate
+function google_trans {
+	env_proxy
+	trans :zh-CN $*
+}
+
+alias fanyi='google_trans'
+
+# fzf
+[[ -s /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+alias fs="fzf"
+alias fv="fzf --bind 'enter:execute(lvim {})+abort'"
+
+# fzf-tab
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# fasd
+fasd_cache="$XDG_CACHE_HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
+alias v='f -e lvim'

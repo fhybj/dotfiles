@@ -11,9 +11,9 @@ exec mako
 # exec nm-applet --indicator
 
 # GTK3 applications take a long time to start
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY VDPAU_DRIVER LIBVA_DRIVER_NAME MESA_LOADER_DRIVER_OVERRIDE
 exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY VDPAU_DRIVER LIBVA_DRIVER_NAME MESA_LOADER_DRIVER_OVERRIDE
      
 # Sway Fader
 exec python3 ~/.config/sway/scripts/swayfader.py      
