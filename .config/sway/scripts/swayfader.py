@@ -28,6 +28,8 @@ BOT_SWITCH_OUT = FADE_TIME      # bottom window becoming window
 FLOAT_BOT_OUT  = FADE_TIME      # floating window fading out from bottom
 FLOAT_BOT_IN   = FADE_TIME      # floating window fading in from bottom
 
+IGNORE_APP_ID  = ["mpv"]
+
 
 class Fader:
     def __init__(self):
@@ -221,7 +223,10 @@ class Fader:
 
 
 def change_opacity(win, trans):
-    win.command("opacity " + str(trans))
+    if win.app_id in IGNORE_APP_ID:
+        win.command("opacity " + str(CON_AC))
+    else:
+        win.command("opacity " + str(trans))
 
 
 if __name__ == "__main__":
