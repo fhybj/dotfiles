@@ -26,13 +26,13 @@ agenew_server_mount ()
 	echo "agenew0574" | sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect -o password_stdin
 	sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect -o password_stdin <<< "agenew0574"
 }
-alias agenew_server='agenew_server_mount'
 
 # alias m12='sshfs agenew@172.18.4.12:/data0 /mnt/12 -o idmap=user -o reconnect'
 # alias m12_1='sshfs agenew@172.18.4.12:/data1 /mnt/12_1 -o idmap=user -o reconnect'
 
 alias env_proxy='export all_proxy=socks5://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890'
 alias unset_env_proxy='unset {all_proxy,http_proxy,https_proxy}'
+env_proxy
 
 alias jh='cd $HOME'
 
@@ -72,7 +72,7 @@ function ranger_func {
     fi
 }
 
-alias re='ranger_func'
+alias re='EDITOR=lvim ranger_func'
 
 
 # autojump
