@@ -4,12 +4,12 @@
 # Note: must have a space after of sudo
 alias sudo='sudo '
 
-alias svim='sudo lvim'
+alias svim='sudo nvim'
 
 alias nvim='lvim'
-alias vi='lvim'
-alias vim='lvim'
-alias vimdiff='lvim -d'
+alias vi='nvim'
+alias vim='nvim'
+alias vimdiff='nvim -d'
 
 # alias cat='bat'
 
