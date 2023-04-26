@@ -1,9 +1,19 @@
 ignore-empty-password
+
+screenshots
 image=$HOME/.config/sway/swaylock.png
 color=1d1f21c1
+
+clock
+datestr=%Y.%m.%d
+
+grace=2
+fade-in=0.5
+
+indicator
 indicator-idle-visible
-indicator-radius=150
-indicator-thickness=30
+indicator-radius=120
+indicator-thickness=20
 
 inside-color=1d1f21
 inside-clear-color=1d1f21
@@ -29,5 +39,3 @@ ring-ver-color=81a2be
 ring-clear-color=b5bd6811
 ring-wrong-color=cc6666
 
-clock
-datestr=%Y.%m.%d
