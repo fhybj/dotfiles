@@ -1,13 +1,12 @@
-#!/usr/bin/env python
-
-import subprocess
-from pyquery import PyQuery # install using `pip install pyquery`
+import requests
+import re
 import json
+from bs4 import BeautifulSoup
 
 # weather icons
 weather_icons = {
-    'sunnyDay': '滛',
-    'clearNight': '望',
+    'sunnyDay': '󰖙',
+    'clearNight': '󰖔',
     'cloudyFoggyDay': '',
     'cloudyFoggyNight': '',
     'rainyDay': '',
@@ -18,32 +17,18 @@ weather_icons = {
     'default': ''
 }
 
-# get location_id
-# to get your own location_id, go to https://weather.com & search your location.
-# once you choose your location, you can see the location_id in the URL(64 chars long hex string)
-# like this: https://weather.com/en-IN/weather/today/l/c3e96d6cc4965fc54f88296b54449571c4107c73b9638c16aafc83575b4ddf2e
-location_id='e3ce110931de2f1f12fedd529a6dab4d71e7bcc017ae5260d7a27c3ed5d840c6' # TODO
+# 从 weather.com 获取气象数据
+url = "https://weather.com/zh-CN/weather/today/l/e3ce110931de2f1f12fedd529a6dab4d71e7bcc017ae5260d7a27c3ed5d840c6"
+response = requests.get(url)
+soup = BeautifulSoup(response.content, 'html.parser')
 
-# priv_env_cmd = 'cat $PRIV_ENV_FILE | grep weather_location | cut -d "=" -f 2'
-# location_id = subprocess.run(
-#     priv_env_cmd, shell=True, capture_output=True).stdout.decode('utf8').strip()
-
-# get html page
-url = "https://weather.com/zh-CN/weather/today/l/" + location_id
-html_data = PyQuery(url)
-
-# current temperature
-temp = html_data("span[data-testid='TemperatureValue']").eq(0).text()
-# print(temp)
-
-# current status phrase
-status = html_data("div[data-testid='wxPhrase']").text()
-status = f"{status[:16]}.." if len(status) > 17 else status
-# print(status)
-
-# status code
-status_code = html_data("#regionHeader").attr("class").split(" ")[2].split("-")[2]
-# print(status_code)
+status_class_list = soup.find('div', {'id': 'regionHeader'}).get('class')
+pattern = r'gradients--(.*?)-top'
+result = re.search(pattern, ' '.join(status_class_list))
+if result:
+    status_code = result.group(1)
+else:
+    status_code = 'default'
 
 # status icon
 icon = (
@@ -51,82 +36,84 @@ icon = (
     if status_code in weather_icons
     else weather_icons["default"]
 )
-# print(icon)
 
-# temperature feels like
-temp_feel = html_data(
-    "div[data-testid='FeelsLikeSection'] > span[data-testid='TemperatureValue']"
-).text()
-#temp_feel_text = f"Feels like {temp_feel}c"
-temp_feel_text = f"体感温度 {temp_feel}c"
-# print(temp_feel_text)
+# 获取当前天气状况
+condition = soup.find('div', {'class': 'CurrentConditions--phraseValue--mZC_p'}).text
 
-uv = (
-    html_data("div[data-testid='wxData'] > span[data-testid='UVIndexValue']")
-    .eq(0)
-    .text()
-)
-uv_text = f"紫外线指数 {uv}"
-# print(uv_text)
+temp = soup.find('span', {'class': 'CurrentConditions--tempValue--MHmYY'}).text
 
-# min-max temperature
-temp_min = (
-    html_data("div[data-testid='wxData'] > span[data-testid='TemperatureValue']")
-    .eq(1)
-    .text()
-)
-temp_max = (
-    html_data("div[data-testid='wxData'] > span[data-testid='TemperatureValue']")
-    .eq(0)
-    .text()
-)
-temp_min_max = f"  {temp_min}\t\t  {temp_max}"
-# print(temp_min_max)
+# 获取体感温度
+feels_like = soup.find('span', {'class': 'TodayDetailsCard--feelsLikeTempValue--2icPt'}).text
 
-# wind speed
-wind_speed = html_data("span[data-testid='Wind']").text().split("\n")[1]
-wind_text = f'煮  {wind_speed}'
-# print(wind_text)
+# 获取紫外线指数
+uv_index = soup.find('span', {'data-testid': 'UVIndexValue'}).text
 
-# humidity
-humidity = html_data("span[data-testid='PercentageValue']").text()
-humidity_text = f"  {humidity}"
-# print(humidity_text)
+# 获取最高温度和最低温度
+high_low_temp = soup.find('div', {'class': 'WeatherDetailsListItem--wxData--kK35q'}).find_all('span')
+high_temp = high_low_temp[0].text
+low_temp = high_low_temp[1].text
 
-# visibility
-visbility = html_data("span[data-testid='VisibilityValue']").text()
-visbility_text = f"  {visbility}"
-# print(visbility_text)
+# 获取风速
+wind_span = soup.find('span', {'data-testid': 'Wind'})
+if (wind_span.svg):
+    wind_span.svg.decompose()  # 移除 svg 标签
+wind_speed = wind_span.text.strip()
 
-# air quality index
-air_quality_index = html_data("text[data-testid='DonutChartValue']").text()
-# print(air_quality_index)
+# 获取湿度
+humidity = soup.find('span', {'data-testid': 'PercentageValue'}).text
 
-# hourly rain prediction
-# prediction = html_data("section[aria-label='每小时预报']")(
-#     "div[data-testid='SegmentPrecipPercentage'] > span"
-# ).text()
-# prediction = prediction.replace("降雨几率", "")
-# prediction = f"\n\n    (hourly) {prediction}" if len(prediction) > 0 else prediction
-prediction = html_data("section[data-testid='HourlyWeatherModule']")(
-     "div[data-testid='SegmentPrecipPercentage'] > span"
-).eq(0).text()
-prediction = prediction.replace("降雨几率", "")
-prediction = f"\n\n    (hourly) {prediction}" if len(prediction) > 0 else prediction
-print(prediction)
+# 获取可见度
+visibility = soup.find('span', {'data-testid': 'VisibilityValue'}).text
 
-# tooltip text
+# 获取空气质量
+air_quality = soup.find('div', {'class': 'AirQuality--col--3I-4C'}).text
+
+# 获取降雨几率
+precipitation_chance_li = soup.find("li", {'class': 'Column--column--3tAuz Column--active--27U5T'})
+precipitation_chance_span = precipitation_chance_li.find("span", {"class": "Column--precip--3JCDO"})
+precipitation_chance_span.span.decompose()
+precipitation_chance = precipitation_chance_span.text
+
+# 获取气压
+pressure_span = soup.find('span', {'data-testid': 'PressureValue'})
+if (pressure_span.svg):
+    pressure_span.svg.decompose()  # 移除 svg 标签
+pressure = pressure_span.text.strip()
+
+# 获取日出日落时间
+sunrise_sunset = soup.find_all('div', {'class': 'SunriseSunset--datesContainer--2cHyj'})[0].find_all('p')
+sunrise_time = sunrise_sunset[0].text
+sunset_time = sunrise_sunset[1].text
+
+# 输出结果
+print("当前天气状况:", condition)
+print("温度:", temp)
+print("体感温度:", feels_like)
+print("紫外线指数:", uv_index)
+print("最高温度:", high_temp)
+print("最低温度:", low_temp)
+print("风速:", wind_speed)
+print("湿度:", humidity)
+print("可见度:", visibility)
+print("空气质量:", air_quality)
+print("降雨几率:", precipitation_chance)
+print("气压:", pressure)
+print("日出时间:", sunrise_time)
+print("日落时间:", sunset_time)
+
 tooltip_text = str.format(
-    "\t\t{}\t\t\n{}\n{}\n{}\n{}\n\n{}\n{}\n{}{}",
+    "\t\t{}\t\t\n{}\n{}\n{}\n{}\n{}\n{}\n\n{}\n{}\n{}\n{}",
     f'<span size="xx-large">{temp}</span>',
     f"<big>{icon}</big>",
-    f"<big>{status}</big>",
-    f"<small>{temp_feel_text}</small>",
-    f"<small>{uv_text}</small>",
-    f"<big>{temp_min_max}</big>",
-    f"{wind_text}\t{humidity_text}",
-    f"{visbility_text}\tAQI {air_quality_index}",
-    f"<i>{prediction}</i>",
+    f"<big>{condition}</big>",
+    f"<small>体感温度 {feels_like}</small>",
+    f"<small>紫外线指数 {uv_index}</small>",
+    f"<small>空气质量 {air_quality}</small>",
+    f"<small>󰖜  {sunrise_time}\t󰖛  {sunset_time}</small>",
+    f"<big>  {low_temp}\t\t  {high_temp}</big>",
+    f"<i>󰖝  {wind_speed}\t  {humidity}</i>",
+    f"<i>  {visibility}\t󰡍  {pressure}</i>",
+    f"<i>  (hourly) {precipitation_chance}</i>",
 )
 
 # tooltip_text += f'{temp_dist_icons}\n{temp_dist}\n\n{time_sunrise_sunset}'
@@ -134,7 +121,7 @@ tooltip_text = str.format(
 # print waybar module data
 out_data = {
     "text": f"{icon}   {temp}",
-    "alt": status,
+    "alt": condition,
     "tooltip": tooltip_text,
     "class": status_code,
 }
